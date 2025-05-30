@@ -13,7 +13,7 @@ const poolWebform = mysql.createPool({
 const poolCorreos = mysql.createPool({
     host: 'localhost',
     user: 'root', // O un usuario de MariaDB con permisos de lectura
-    password: 'JorgeJosue123',
+    password: 'jxxmd16',
     database: 'vmail'
 });
 
