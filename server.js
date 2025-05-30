@@ -1,33 +1,25 @@
 // server.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const pool = require('./db');
+const { poolCorreos } = require('./db');
 
 const app = express();
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-// Ruta para el formulario
-app.get('/', (req, res) => {
-    res.render('formulario');
-});
-
-// Ruta para guardar los datos
-app.post('/guardar', async (req, res) => {
-    const { nombre, correo, mensaje } = req.body;
+// Ruta para mostrar las cuentas de correo
+app.get('/usuarios-correo', async (req, res) => {
     try {
-        await pool.query(
-            'INSERT INTO contactos (nombre, correo, mensaje) VALUES (?, ?, ?)',
-            [nombre, correo, mensaje]
-        );
-        res.send('✅ Datos guardados correctamente en la base de datos.');
+        const [rows] = await poolCorreos.query('SELECT username, name, quota, domain FROM mailbox');
+        res.render('usuarios', { usuarios: rows });
     } catch (error) {
-        console.error('Error al insertar en la base de datos:', error);
-        res.status(500).send('❌ Error al guardar en la base de datos.');
+        console.error('Error al consultar la base de datos:', error);
+        res.status(500).send('Error al cargar usuarios de correo.');
     }
 });
 
 // Levantar el servidor
-app.listen(3000, () => {
-    console.log('Servidor funcionando en http://localhost:3000');
+app.listen(3000, '0.0.0.0', () => {
+    console.log('Servidor funcionando en http://0.0.0.0:3000');
 });

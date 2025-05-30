@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios de Correo</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/usuarios-correo">Usuarios de Correo</a>
+        <a href="/iredadmin/" target="_blank">Admin Correo</a>
+        <a href="/mail/" target="_blank">Correo Web</a>
+    </nav>
+
+    <div class="container">
+        <h1>Usuarios de Correo Registrados</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Correo</th>
+                    <th>Nombre</th>
+                    <th>Dominio</th>
+                    <th>Espacio Asignado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% usuarios.forEach(usuario => { %>
+                    <tr>
+                        <td><%= usuario.username %></td>
+                        <td><%= usuario.name %></td>
+                        <td><%= usuario.domain %></td>
+                        <td><%= (usuario.quota / 1024).toFixed(2) %> MB</td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

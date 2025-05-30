@@ -1,16 +1,20 @@
 // db.js
 const mysql = require('mysql2/promise');
 
-// Cambia estos datos por los de tu servidor
-const pool = mysql.createPool({
+// Conexión para la base de datos webformdb (opcional, puedes eliminarla si no la usas)
+const poolWebform = mysql.createPool({
     host: 'localhost',
     user: 'usuarioform',
     password: 'clave123',
-    database: 'webformdb',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    database: 'webformdb'
 });
 
+// Conexión para la base de datos vmail (de iRedMail)
+const poolCorreos = mysql.createPool({
+    host: 'localhost',
+    user: 'root', // O un usuario de MariaDB con permisos de lectura
+    password: 'JorgeJosue123',
+    database: 'vmail'
+});
 
-module.exports = pool;
+module.exports = { poolWebform, poolCorreos };
