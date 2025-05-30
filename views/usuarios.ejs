@@ -6,7 +6,7 @@
     <title>Usuarios de Correo</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
+         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -332,11 +332,13 @@
             </a>
         </div>
     </nav>
+
     <div class="container">
         <div class="header-section fade-in">
             <h1><i class="fas fa-users"></i> Usuarios de Correo Registrados</h1>
             <p>Gestión y monitoreo de cuentas de correo electrónico</p>
         </div>
+
         <div class="controls fade-in">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Buscar por correo, nombre o dominio...">
@@ -344,15 +346,18 @@
             </div>
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number" id="totalUsers">25</div>
+                    <div class="stat-number" id="totalUsers"><%= usuarios.length %></div>
                     <div class="stat-label">Total Usuarios</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="totalQuota">128.50</div>
+                    <div class="stat-number" id="totalQuota">
+                        <%= (usuarios.reduce((sum, u) => sum + u.quota, 0) / 1024 / 1024).toFixed(2) %>
+                    </div>
                     <div class="stat-label">GB Asignados</div>
                 </div>
             </div>
         </div>
+
         <div class="table-container fade-in">
             <table id="usersTable">
                 <thead>
@@ -364,60 +369,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="email-cell">
-                            <i class="fas fa-envelope" style="color: #1abc9c; margin-right: 8px;"></i>
-                            juan.perez@empresa.com
-                        </td>
-                        <td>
-                            <i class="fas fa-user" style="color: #3498db; margin-right: 8px;"></i>
-                            Juan Pérez
-                        </td>
-                        <td>
-                            <span class="domain-badge">empresa.com</span>
-                        </td>
-                        <td class="quota-cell">
-                            <div style="margin-bottom: 5px;">
-                                <strong>5.00 MB</strong> 
-                                (5.12 GB)
-                            </div>
-                            <div class="quota-bar">
-                                <div class="quota-fill" style="width: 75%"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="email-cell">
-                            <i class="fas fa-envelope" style="color: #1abc9c; margin-right: 8px;"></i>
-                            maria.garcia@empresa.com
-                        </td>
-                        <td>
-                            <i class="fas fa-user" style="color: #3498db; margin-right: 8px;"></i>
-                            María García
-                        </td>
-                        <td>
-                            <span class="domain-badge">empresa.com</span>
-                        </td>
-                        <td class="quota-cell">
-                            <div style="margin-bottom: 5px;">
-                                <strong>3.50 MB</strong> 
-                                (3.58 GB)
-                            </div>
-                            <div class="quota-bar">
-                                <div class="quota-fill" style="width: 50%"></div>
-                            </div>
-                        </td>
-                    </tr>
+                    <% usuarios.forEach(usuario => { %>
+                        <tr>
+                            <td class="email-cell">
+                                <i class="fas fa-envelope" style="color: #1abc9c; margin-right: 8px;"></i>
+                                <%= usuario.username %>
+                            </td>
+                            <td>
+                                <i class="fas fa-user" style="color: #3498db; margin-right: 8px;"></i>
+                                <%= usuario.name %>
+                            </td>
+                            <td>
+                                <span class="domain-badge"><%= usuario.domain %></span>
+                            </td>
+                            <td class="quota-cell">
+                                <div style="margin-bottom: 5px;">
+                                    <strong><%= (usuario.quota / 1024).toFixed(2) %> MB</strong> 
+                                    (<%= (usuario.quota / 1024 / 1024).toFixed(2) %> GB)
+                                </div>
+                                <div class="quota-bar">
+                                    <div class="quota-fill" style="width: <%= Math.min((usuario.quota / 5120) * 100, 100) %>%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
                 </tbody>
             </table>
         </div>
     </div>
+
     <script>
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
             const rows = document.querySelectorAll('tbody tr');
             let matches = 0;
+
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
                 if (text.includes(searchTerm)) {
@@ -427,6 +414,7 @@
                     row.style.display = 'none';
                 }
             });
+
             document.getElementById('totalUsers').textContent = matches;
         });
     </script>
