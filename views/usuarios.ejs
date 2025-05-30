@@ -4,314 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios de Correo</title>
+    <link rel="stylesheet" href="/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        nav {
-            background: rgba(44, 62, 80, 0.95);
-            backdrop-filter: blur(10px);
-            color: #ecf0f1;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1abc9c;
-        }
-
-        nav a {
-            color: #ecf0f1;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        nav a:hover {
-            background: rgba(26, 188, 156, 0.2);
-            color: #1abc9c;
-            transform: translateY(-2px);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
-        }
-
-        .header-section h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header-section p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .controls {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: #1abc9c;
-            box-shadow: 0 0 20px rgba(26, 188, 156, 0.2);
-        }
-
-        .search-box i {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-        }
-
-        .stats {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #1abc9c, #16a085);
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .table-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-        }
-
-        th {
-            padding: 20px 15px;
-            text-align: left;
-            font-weight: 600;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        th:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        th i {
-            margin-left: 8px;
-            opacity: 0.7;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            transition: all 0.3s ease;
-        }
-
-        tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background: rgba(26, 188, 156, 0.05);
-            transform: scale(1.01);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        tbody tr:nth-child(even) {
-            background: rgba(248, 249, 250, 0.5);
-        }
-
-        .email-cell {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .quota-cell {
-            text-align: center;
-        }
-
-        .quota-bar {
-            width: 100%;
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 3px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .quota-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1abc9c, #16a085);
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        .domain-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-style: italic;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #1abc9c;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 10px;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .stats {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .nav-left {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            table {
-                font-size: 14px;
-            }
-            
-            th, td {
-                padding: 10px 8px;
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
 </head>
 <body>
     <nav>
@@ -346,11 +40,13 @@
             </div>
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number" id="totalUsers">0</div>
+                    <div class="stat-number" id="totalUsers"><%= usuarios.length %></div>
                     <div class="stat-label">Total Usuarios</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="totalQuota">0</div>
+                    <div class="stat-number" id="totalQuota">
+                        <%= (usuarios.reduce((sum, u) => sum + u.quota, 0) / 1024 / 1024).toFixed(2) %>
+                    </div>
                     <div class="stat-label">GB Asignados</div>
                 </div>
             </div>
@@ -360,183 +56,60 @@
             <table id="usersTable">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0)">
-                            <i class="fas fa-envelope"></i> Correo
-                            <i class="fas fa-sort"></i>
-                        </th>
-                        <th onclick="sortTable(1)">
-                            <i class="fas fa-user"></i> Nombre
-                            <i class="fas fa-sort"></i>
-                        </th>
-                        <th onclick="sortTable(2)">
-                            <i class="fas fa-globe"></i> Dominio
-                            <i class="fas fa-sort"></i>
-                        </th>
-                        <th onclick="sortTable(3)">
-                            <i class="fas fa-hdd"></i> Espacio Asignado
-                            <i class="fas fa-sort"></i>
-                        </th>
+                        <th><i class="fas fa-envelope"></i> Correo</th>
+                        <th><i class="fas fa-user"></i> Nombre</th>
+                        <th><i class="fas fa-globe"></i> Dominio</th>
+                        <th><i class="fas fa-hdd"></i> Espacio Asignado</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <!-- Los datos se cargarán aquí -->
+                <tbody>
+                    <% usuarios.forEach(usuario => { %>
+                        <tr>
+                            <td class="email-cell">
+                                <i class="fas fa-envelope" style="color: #1abc9c; margin-right: 8px;"></i>
+                                <%= usuario.username %>
+                            </td>
+                            <td>
+                                <i class="fas fa-user" style="color: #3498db; margin-right: 8px;"></i>
+                                <%= usuario.name %>
+                            </td>
+                            <td>
+                                <span class="domain-badge"><%= usuario.domain %></span>
+                            </td>
+                            <td class="quota-cell">
+                                <div style="margin-bottom: 5px;">
+                                    <strong><%= (usuario.quota / 1024).toFixed(2) %> MB</strong> 
+                                    (<%= (usuario.quota / 1024 / 1024).toFixed(2) %> GB)
+                                </div>
+                                <div class="quota-bar">
+                                    <div class="quota-fill" style="width: <%= Math.min((usuario.quota / 5120) * 100, 100) %>%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
                 </tbody>
             </table>
-            <div id="noResults" class="no-results" style="display: none;">
-                <i class="fas fa-search"></i>
-                <p>No se encontraron usuarios que coincidan con la búsqueda</p>
-            </div>
         </div>
     </div>
 
     <script>
-        // Datos de ejemplo - en tu caso real vendrían del servidor
-        const usuarios = [
-            { username: 'juan@empresa.com', name: 'Juan Pérez', domain: 'empresa.com', quota: 2048 },
-            { username: 'maria@empresa.com', name: 'María González', domain: 'empresa.com', quota: 1024 },
-            { username: 'admin@empresa.com', name: 'Administrador', domain: 'empresa.com', quota: 5120 },
-            { username: 'soporte@empresa.com', name: 'Soporte Técnico', domain: 'empresa.com', quota: 3072 },
-            { username: 'ventas@empresa.com', name: 'Departamento Ventas', domain: 'empresa.com', quota: 2048 }
-        ];
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            let matches = 0;
 
-        let currentSort = { column: -1, ascending: true };
-        let filteredUsers = [...usuarios];
-
-        function initializeTable() {
-            renderTable(usuarios);
-            updateStats();
-            setupSearch();
-        }
-
-        function renderTable(users) {
-            const tbody = document.getElementById('tableBody');
-            const noResults = document.getElementById('noResults');
-            
-            if (users.length === 0) {
-                tbody.innerHTML = '';
-                noResults.style.display = 'block';
-                return;
-            }
-            
-            noResults.style.display = 'none';
-            
-            tbody.innerHTML = users.map(usuario => {
-                const quotaMB = (usuario.quota / 1024).toFixed(2);
-                const quotaGB = (usuario.quota / 1024 / 1024).toFixed(2);
-                const quotaPercentage = Math.min((usuario.quota / 5120) * 100, 100); // Asumiendo 5GB como máximo
-                
-                return `
-                    <tr>
-                        <td class="email-cell">
-                            <i class="fas fa-envelope" style="color: #1abc9c; margin-right: 8px;"></i>
-                            ${usuario.username}
-                        </td>
-                        <td>
-                            <i class="fas fa-user" style="color: #3498db; margin-right: 8px;"></i>
-                            ${usuario.name}
-                        </td>
-                        <td>
-                            <span class="domain-badge">${usuario.domain}</span>
-                        </td>
-                        <td class="quota-cell">
-                            <div style="margin-bottom: 5px;">
-                                <strong>${quotaMB} MB</strong> (${quotaGB} GB)
-                            </div>
-                            <div class="quota-bar">
-                                <div class="quota-fill" style="width: ${quotaPercentage}%"></div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function updateStats() {
-            const totalUsers = filteredUsers.length;
-            const totalQuotaGB = (filteredUsers.reduce((sum, user) => sum + user.quota, 0) / 1024 / 1024).toFixed(1);
-            
-            document.getElementById('totalUsers').textContent = totalUsers;
-            document.getElementById('totalQuota').textContent = totalQuotaGB;
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                
-                filteredUsers = usuarios.filter(usuario => 
-                    usuario.username.toLowerCase().includes(searchTerm) ||
-                    usuario.name.toLowerCase().includes(searchTerm) ||
-                    usuario.domain.toLowerCase().includes(searchTerm)
-                );
-                
-                renderTable(filteredUsers);
-                updateStats();
-            });
-        }
-
-        function sortTable(columnIndex) {
-            const columns = ['username', 'name', 'domain', 'quota'];
-            const column = columns[columnIndex];
-            
-            if (currentSort.column === columnIndex) {
-                currentSort.ascending = !currentSort.ascending;
-            } else {
-                currentSort.column = columnIndex;
-                currentSort.ascending = true;
-            }
-            
-            filteredUsers.sort((a, b) => {
-                let aVal = a[column];
-                let bVal = b[column];
-                
-                if (column === 'quota') {
-                    aVal = Number(aVal);
-                    bVal = Number(bVal);
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                    matches++;
                 } else {
-                    aVal = aVal.toLowerCase();
-                    bVal = bVal.toLowerCase();
-                }
-                
-                if (aVal < bVal) return currentSort.ascending ? -1 : 1;
-                if (aVal > bVal) return currentSort.ascending ? 1 : -1;
-                return 0;
-            });
-            
-            renderTable(filteredUsers);
-            
-            // Actualizar iconos de ordenamiento
-            document.querySelectorAll('th i.fa-sort, th i.fa-sort-up, th i.fa-sort-down').forEach(icon => {
-                icon.className = 'fas fa-sort';
-            });
-            
-            const currentIcon = document.querySelectorAll('th')[columnIndex].querySelector('i:last-child');
-            currentIcon.className = currentSort.ascending ? 'fas fa-sort-up' : 'fas fa-sort-down';
-        }
-
-        // Inicializar cuando la página carga
-        document.addEventListener('DOMContentLoaded', initializeTable);
-
-        // Efecto de fade-in para elementos
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    row.style.display = 'none';
                 }
             });
-        }, observerOptions);
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
+            document.getElementById('totalUsers').textContent = matches;
         });
     </script>
 </body>
