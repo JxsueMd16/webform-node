@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { poolWebform } = require('../db');
+const { poolWebform } = require('../db'); // O como lo tengas configurado
+
+// Rutas de agenda
 const agendaController = require('../controllers/agendaController');
 
-// Rutas existentes
 router.get('/agenda', agendaController.mostrarAgenda);
 router.post('/guardar-actividad', agendaController.guardarActividad);
 router.post('/eliminar-actividad/:id', agendaController.eliminarActividad);
 
-// RUTA FALTANTE: obtener cursos por semestre (AJAX)
+// 📌 ESTA RUTA es la clave para los cursos
 router.get('/cursos/:id', async (req, res) => {
     const { id } = req.params;
     try {
