@@ -357,6 +357,32 @@
                 transform: translateY(0);
             }
         }
+        td form {
+            display: inline-block;
+            margin: 0;
+        }
+
+        td form button {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1abc9c;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        td form button:hover {
+            background-color: #16a085;
+            transform: translateY(-2px);
+        }
+
+        td form + form {
+            margin-top: 8px; /* Separación si tienes varios botones */
+        }
+
     </style>
 </head>
 
