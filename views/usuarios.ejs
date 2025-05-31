@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios de Correo</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-         * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -27,7 +28,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -78,7 +79,7 @@
         .header-section h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .header-section p {
@@ -91,7 +92,7 @@
             backdrop-filter: blur(10px);
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
@@ -160,7 +161,7 @@
             backdrop-filter: blur(10px);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         table {
@@ -204,7 +205,7 @@
         tbody tr:hover {
             background: rgba(26, 188, 156, 0.05);
             transform: scale(1.01);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         tbody tr:nth-child(even) {
@@ -270,49 +271,95 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        @media (max-width: 768px) {
+       @media (max-width: 768px) {
             .container {
                 padding: 0 10px;
             }
-            
+
             .controls {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .stats {
                 justify-content: center;
                 flex-wrap: wrap;
             }
-            
+
             .nav-left {
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             table {
                 font-size: 14px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
-            
-            th, td {
-                padding: 10px 8px;
+
+            thead {
+                display: none; /* Oculta los headers para móviles */
+            }
+
+            tbody tr {
+                display: block;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                padding: 10px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 5px;
+                border: none;
+            }
+
+            tbody td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #1abc9c;
+                margin-right: 10px;
+                min-width: 100px;
+            }
+
+            .quota-bar {
+                width: 80%;
             }
         }
+
 
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
     <nav>
         <div class="nav-left">
@@ -346,12 +393,14 @@
             </div>
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number" id="totalUsers"><%= usuarios.length %></div>
+                    <div class="stat-number" id="totalUsers">
+                        <%= usuarios.length %>
+                    </div>
                     <div class="stat-label">Total Usuarios</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="totalQuota">
-                        <%= (usuarios.reduce((sum, u) => sum + u.quota, 0) / 1024 / 1024).toFixed(2) %>
+                        <%= (usuarios.reduce((sum, u)=> sum + u.quota, 0) / 1024 / 1024).toFixed(2) %>
                     </div>
                     <div class="stat-label">GB Asignados</div>
                 </div>
@@ -369,30 +418,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% usuarios.forEach(usuario => { %>
+                    <% usuarios.forEach(usuario=> { %>
                         <tr>
-                            <td class="email-cell">
+                            <td class="email-cell" data-label="Correo">
                                 <i class="fas fa-envelope" style="color: #1abc9c; margin-right: 8px;"></i>
                                 <%= usuario.username %>
                             </td>
-                            <td>
+                            <td data-label="Nombre">
                                 <i class="fas fa-user" style="color: #3498db; margin-right: 8px;"></i>
                                 <%= usuario.name %>
                             </td>
-                            <td>
-                                <span class="domain-badge"><%= usuario.domain %></span>
+                            <td data-label="Dominio">
+                                <span class="domain-badge">
+                                    <%= usuario.domain %>
+                                </span>
                             </td>
-                            <td class="quota-cell">
+                            <td class="quota-cell" data-label="Espacio Asignado">
                                 <div style="margin-bottom: 5px;">
-                                    <strong><%= (usuario.quota / 1024).toFixed(2) %> MB</strong> 
+                                    <strong>
+                                        <%= (usuario.quota / 1024).toFixed(2) %> MB
+                                    </strong>
                                     (<%= (usuario.quota / 1024 / 1024).toFixed(2) %> GB)
                                 </div>
                                 <div class="quota-bar">
-                                    <div class="quota-fill" style="width: <%= Math.min((usuario.quota / 5120) * 100, 100) %>%"></div>
+                                    <div class="quota-fill"
+                                        style="width: <%= Math.min((usuario.quota / 5120) * 100, 100) %>%"></div>
                                 </div>
                             </td>
+
                         </tr>
-                    <% }) %>
+                        <% }) %>
                 </tbody>
             </table>
         </div>
@@ -419,4 +474,5 @@
         });
     </script>
 </body>
+
 </html>
