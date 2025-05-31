@@ -7,6 +7,9 @@ const agendaController = require('../controllers/agendaController');
 router.get('/agenda', agendaController.mostrarAgenda);
 router.post('/agenda/guardar-actividad', agendaController.guardarActividad);
 router.post('/agenda/eliminar-actividad/:id', agendaController.eliminarActividad);
+router.get('/agenda/editar-actividad/:id', agendaController.mostrarEditarActividad);
+router.post('/agenda/editar-actividad/:id', agendaController.editarActividad);
+
 
 router.get('/agenda/cursos/:id', async (req, res) => {
     const { id } = req.params;

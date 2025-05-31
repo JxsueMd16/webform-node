@@ -40,3 +40,32 @@ exports.eliminarActividad = async (req, res) => {
         res.status(500).send('Error al eliminar la actividad.');
     }
 };
+exports.mostrarEditarActividad = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [actividad] = await poolWebform.query(`
+            SELECT tb_actividades.id, tb_actividades.actividad, tb_cursos.id AS id_curso, tb_cursos.id_semestre 
+            FROM tb_actividades 
+            JOIN tb_cursos ON tb_actividades.id_curso = tb_cursos.id 
+            WHERE tb_actividades.id = ?`, [id]);
+        const [semestres] = await poolWebform.query('SELECT * FROM tb_semestres');
+        const [cursos] = await poolWebform.query('SELECT * FROM tb_cursos WHERE id_semestre = ?', [actividad[0].id_semestre]);
+        res.render('editarAgenda', { actividad: actividad[0], semestres, cursos });
+    } catch (err) {
+        console.error('Error al cargar la actividad para editar:', err);
+        res.status(500).send('Error al cargar la actividad para editar.');
+    }
+};
+
+
+exports.editarActividad = async (req, res) => {
+    const { id } = req.params;
+    const { curso, actividad } = req.body;
+    try {
+        await poolWebform.query('UPDATE tb_actividades SET id_curso = ?, actividad = ? WHERE id = ?', [curso, actividad, id]);
+        res.redirect('/agenda');
+    } catch (err) {
+        console.error('Error al editar la actividad:', err);
+        res.status(500).send('Error al editar la actividad.');
+    }
+};
