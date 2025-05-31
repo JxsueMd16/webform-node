@@ -214,7 +214,7 @@
                 return;
             }
             try {
-                const res = await axios.get(`/cursos/${id}`);
+                const res = await axios.get(`cursos/${id}`);
                 cursoSelect.innerHTML = '<option value="">Seleccione un curso</option>';
                 res.data.forEach(curso => {
                     const opt = document.createElement('option');
