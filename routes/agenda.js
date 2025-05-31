@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { poolWebform } = require('../db'); // O como lo tengas configurado
+const { poolWebform } = require('../db'); 
 
-// Rutas de agenda
 const agendaController = require('../controllers/agendaController');
 
 router.get('/agenda', agendaController.mostrarAgenda);
-router.post('/guardar-actividad', agendaController.guardarActividad);
-router.post('/eliminar-actividad/:id', agendaController.eliminarActividad);
+router.post('/agenda/guardar-actividad', agendaController.guardarActividad);
+router.post('/agenda/eliminar-actividad/:id', agendaController.eliminarActividad);
 
 router.get('/agenda/cursos/:id', async (req, res) => {
     const { id } = req.params;
@@ -19,6 +18,5 @@ router.get('/agenda/cursos/:id', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener cursos' });
     }
 });
-
 
 module.exports = router;

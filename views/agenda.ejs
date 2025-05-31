@@ -151,7 +151,7 @@
 
     <div class="container">
         <h1>Registrar Actividad</h1>
-        <form action="/guardar-actividad" method="POST">
+        <form action="/agenda/guardar-actividad" method="POST">
             <label for="semestre">Semestre:</label>
             <select name="semestre" id="semestre" required>
                 <option value="">Seleccione un semestre</option>
@@ -189,7 +189,7 @@
                             <td><%= a.curso %></td>
                             <td><%= a.actividad %></td>
                             <td>
-                                <form action="/eliminar-actividad/<%= a.id %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar esta actividad?');">
+                                <form action="/agenda/eliminar-actividad/<%= a.id %>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar esta actividad?');">
                                     <button type="submit">Eliminar</button>
                                 </form>
                             </td>
